@@ -30,7 +30,7 @@ jobs:
       - name: Instalar ferramentas
         run: |
           python -m pip install --quiet pillow
-          npm install --ignore-scripts --no-audit --no-fund
+          npm install --legacy-peer-deps --ignore-scripts --no-audit --no-fund
       - name: Gerar previews e miniaturas
         run: python scripts/render-theme-previews.py
       - name: Empacotar cinco temas completos
