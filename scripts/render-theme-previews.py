@@ -69,7 +69,7 @@ for p in projects:
     tmp=root/".theme-build/previews"/slug
     tmp.mkdir(parents=True,exist_ok=True)
     image.save(tmp/"preview.png",optimize=True)
-    folder=root/"themes"/slug
+    folder=root/"Free"/slug
     folder.mkdir(parents=True,exist_ok=True)
     image.resize((960,540),Image.Resampling.LANCZOS).save(folder/"thumbnail.png",optimize=True)
     print("Miniatura:",slug)

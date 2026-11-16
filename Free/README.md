@@ -1,4 +1,4 @@
-# Catálogo de temas LinkFree / LinkStack
+# Catálogo Free — temas LinkFree / LinkStack
 
 Cada tema possui sua própria pasta com um arquivo ZIP **pronto para enviar ao importador do LinkStack**, uma imagem `thumbnail.png` de pré-visualização e instruções em `README.md`.
 

@@ -19,7 +19,7 @@ async function recursive(folder: string, root = folder): Promise<{file:string,da
 for (const slug of names) {
   const project = projects.find(p => p.slug === slug);
   if (!project) throw Error("Tema ausente: "+slug);
-  const folder = path.join("themes",slug);
+  const folder = path.join("Free",slug);
   await fs.mkdir(folder,{recursive:true});
   const zip = new JSZip(), dest = zip.folder(slug);
   if (!dest) throw Error("Falha ao criar pasta "+slug);
