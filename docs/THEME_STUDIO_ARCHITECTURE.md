@@ -53,7 +53,7 @@ A rota `POST /api/themes/import-zip` e `src/core/zipSecurity.ts` implementam:
 Ao clicar em **Exportar ZIP**:
 1. O `themeValidator.ts` executa 10 verificações (estrutura, sintaxe `config.php`, diretivas Blade, balanceamento CSS, contraste WCAG, responsividade mobile, `prefers-reduced-motion`, isolamento `pointer-events`, licença).
 2. Um `preview.png` de `1920 × 1080` é renderizado em Canvas HTML5 refletindo fielmente a paleta, fundo, geometria, avatar e botões configurados.
-3. O backend gera o arquivo `<ThemeSlug>.zip` contendo `<ThemeSlug>/` na raiz (sem pastas extras indevidas) pronto para upload em **LinkStack → Temas → Importar temas**.
+3. O backend gera o arquivo `<ThemeSlug>.zip` exatamente no mesmo formato do pacote de referência: `themes/<ThemeSlug>/...`, contendo os arquivos plug-and-play (`config.php`, `readme.md`, `preview.png`, CSS e `extra/custom-assets/theme-effects.js`).
 
 ---
 

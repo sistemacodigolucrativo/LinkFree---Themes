@@ -321,7 +321,8 @@ async function startServer() {
       }
 
       // Confirmed import into isolated workspace
-      const baseSlug = sanitizeSlug(inspection.detectedName || inspection.themeRootFolder || 'ImportedTheme');
+      const rootLeaf = inspection.themeRootFolder.split('/').filter(Boolean).pop() || '';
+      const baseSlug = sanitizeSlug(inspection.detectedName || rootLeaf || 'ImportedTheme');
       const uniqueSlug = `${baseSlug}_${Date.now().toString().slice(-4)}`;
       const isolatedDir = safeResolveWithin(WORKSPACE_THEMES_DIR, uniqueSlug);
       await fs.mkdir(isolatedDir, { recursive: true });
@@ -358,7 +359,7 @@ async function startServer() {
         authorUri: 'https://linkstack.org',
         license: inspection.detectedLicense.toLowerCase().includes('gpl') ? 'GPLv3' : 'MIT',
         sourceType: 'imported',
-        baseThemeSlug: inspection.themeRootFolder || baseSlug,
+        baseThemeSlug: rootLeaf || baseSlug,
         description: `Tema importado com segurança em área isolada (${inspection.files.length} entradas inspecionadas).`,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -398,9 +399,9 @@ async function startServer() {
 
       const slug = sanitizeSlug(project.slug || project.name);
       const zip = new JSZip();
-      const folder = zip.folder(slug);
+      const folder = zip.folder('themes')?.folder(slug);
       if (!folder) {
-        throw new Error('Não foi possível criar diretório raiz no ZIP.');
+        throw new Error('Não foi possível criar diretório themes/<tema>/ no ZIP.');
       }
 
       const generatedFiles = generateThemePackageFiles({ ...project, slug });
@@ -418,8 +419,22 @@ async function startServer() {
         if (buf) folder.file('preview.png', buf);
       }
 
-      // Include empty custom-assets/.gitkeep or preserved safe assets if applicable
-      folder.file('extra/custom-assets/.gitkeep', '');
+      // Bundle image backdrop into extra/custom-assets/bg-backdrop.jpg if enabled
+      if (
+        project.config.background.effect === 'image-backdrop' ||
+        project.config.background.imagePreset !== 'none'
+      ) {
+        const imgFile =
+          project.config.background.imagePreset === 'aurora'
+            ? 'bg_aurora_nebula_1794859274083.jpg'
+            : 'bg_obsidian_architecture_1794859274188.jpg';
+        const imgBuf = await fs
+          .readFile(path.join(ROOT_DIR, 'src', 'assets', 'images', imgFile))
+          .catch(() => null);
+        if (imgBuf) {
+          folder.file('extra/custom-assets/bg-backdrop.jpg', imgBuf);
+        }
+      }
 
       const zipBuffer = await zip.generateAsync({
         type: 'nodebuffer',

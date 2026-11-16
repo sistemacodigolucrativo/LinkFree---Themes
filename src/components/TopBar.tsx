@@ -1,6 +1,6 @@
 import { Download, Layers } from 'lucide-react';
 
-export type StudioTab = 'gallery' | 'editor' | 'docs';
+export type StudioTab = 'gallery' | 'editor' | 'simulator' | 'docs';
 
 interface TopBarProps {
   activeTab: StudioTab;
@@ -13,6 +13,7 @@ export function TopBar({ activeTab, onSelectTab, onOpenExport }: TopBarProps) {
   const navItems: { id: StudioTab; label: string }[] = [
     { id: 'gallery', label: 'Galeria' },
     { id: 'editor', label: 'Estúdio Visual' },
+    { id: 'simulator', label: 'Simulador' },
     { id: 'docs', label: 'Auditoria & Docs' },
   ];
 

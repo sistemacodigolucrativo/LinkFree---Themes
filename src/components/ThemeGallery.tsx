@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Copy,
   Edit3,
+  Eye,
   FolderUp,
   GitBranch,
   Plus,
@@ -17,6 +18,7 @@ interface ThemeGalleryProps {
   baseThemes: BaseThemeSummary[];
   activeProjectId: string;
   onSelectAndEdit: (project: ThemeProject) => void;
+  onSimulateProject: (project: ThemeProject) => void;
   onDuplicateProject: (project: ThemeProject, asNewVersion?: boolean) => void;
   onRenameProject: (id: string, newName: string) => void;
   onDeleteProject: (id: string) => void;
@@ -31,6 +33,7 @@ export function ThemeGallery({
   baseThemes,
   activeProjectId,
   onSelectAndEdit,
+  onSimulateProject,
   onDuplicateProject,
   onRenameProject,
   onDeleteProject,
@@ -317,6 +320,16 @@ export function ThemeGallery({
                   </button>
 
                   <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      title="Abrir no Simulador"
+                      aria-label={`Simular ${project.name}`}
+                      onClick={() => onSimulateProject(project)}
+                      className="inline-flex items-center gap-1 rounded-md border border-slate-700/80 bg-slate-900 px-2 py-1 text-xs font-medium text-slate-200 hover:border-cyan-500/50 hover:text-cyan-300 cursor-pointer"
+                    >
+                      <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+                      <span>Simular</span>
+                    </button>
                     {!isBase && (
                       <>
                         <button

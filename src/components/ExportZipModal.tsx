@@ -169,7 +169,7 @@ export function ExportZipModal({ open, project, onClose }: ExportZipModalProps) 
                 </div>
               </div>
               <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
-                Incluído automaticamente na raiz de <span className="font-mono text-slate-300">{slug}/preview.png</span> para o seletor administrativo do LinkStack.
+                Incluído automaticamente em <span className="font-mono text-slate-300">themes/{slug}/preview.png</span> — mesma estrutura do pacote original LinkStack.
               </p>
             </div>
           </div>
@@ -178,7 +178,7 @@ export function ExportZipModal({ open, project, onClose }: ExportZipModalProps) 
           <div className="grid grid-cols-1 lg:grid-cols-3 rounded-xl border border-slate-800 bg-slate-950/80 overflow-hidden min-h-[260px]">
             <div className="border-b lg:border-b-0 lg:border-r border-slate-800 p-3">
               <h3 className="text-xs font-semibold text-slate-300 mb-2 font-mono">
-                {slug}/
+                themes/{slug}/
               </h3>
               <div className="space-y-1">
                 {generatedFiles.map((f) => (
@@ -207,7 +207,7 @@ export function ExportZipModal({ open, project, onClose }: ExportZipModalProps) 
             <div className="lg:col-span-2 flex flex-col">
               <div className="flex items-center justify-between border-b border-slate-800 px-4 py-2 bg-slate-900/60">
                 <span className="font-mono text-xs text-cyan-300">
-                  {slug}/{activeFile.path}
+                  themes/{slug}/{activeFile.path}
                 </span>
                 <span className="font-mono text-[11px] tabular-nums text-slate-400">
                   {activeFile.sizeBytes} bytes

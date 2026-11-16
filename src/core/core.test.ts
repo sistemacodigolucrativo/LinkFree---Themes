@@ -3,6 +3,7 @@ import test from 'node:test';
 import { contrastRatio, hexToRgbaString, parseColor } from './contrast';
 import { generateThemePackageFiles } from './linkstackGenerator';
 import { applyPaletteToConfig, createStarterPresets } from './palettes';
+import { evaluateHorizontalSwipe, stepProjectIndex } from './swipeNavigation';
 import { validateThemeProject } from './themeValidator';
 import {
   inspectThemeArchiveEntries,
@@ -90,8 +91,32 @@ test('linkstackGenerator produces complete valid files and validator passes star
   assert.ok(paths.includes('extra/custom-head.blade.php'));
   assert.ok(paths.includes('extra/custom-body.blade.php'));
   assert.ok(paths.includes('extra/custom-body-end.blade.php'));
+  assert.ok(paths.includes('extra/custom-assets/theme-effects.js'));
 
   const updated = { ...base, config: applyPaletteToConfig(base.config, 'emerald-future') };
   const report = validateThemeProject(updated);
   assert.equal(report.overallStatus, 'compatible');
+
+  // Verify themes/<Slug>/ round-trip matches delivered ZIP organization with zero warnings
+  const textMap: Record<string, string> = {};
+  const entries = files.map((f) => {
+    const full = `themes/${base.slug}/${f.path}`;
+    textMap[full] = f.content;
+    return { path: full, sizeBytes: f.sizeBytes, compressedBytes: f.sizeBytes, isDir: false };
+  });
+  const roundTrip = inspectThemeArchiveEntries(entries, textMap);
+  assert.equal(roundTrip.valid, true);
+  assert.equal(roundTrip.themeRootFolder, `themes/${base.slug}`);
+  assert.equal(roundTrip.compatibilityWarnings.length, 0);
+});
+
+test('swipeNavigation steps circularly across templates and distinguishes horizontal swipes from vertical scroll', () => {
+  assert.equal(stepProjectIndex(0, 5, -1), 4);
+  assert.equal(stepProjectIndex(4, 5, 1), 0);
+  assert.equal(stepProjectIndex(2, 5, 1), 3);
+  assert.equal(evaluateHorizontalSwipe(-120, 10, 320), 'next');
+  assert.equal(evaluateHorizontalSwipe(95, -12, 350), 'prev');
+  assert.equal(evaluateHorizontalSwipe(-42, 4, 180), 'next');
+  assert.equal(evaluateHorizontalSwipe(-25, 80, 200), null);
+  assert.equal(evaluateHorizontalSwipe(-10, 2, 100), null);
 });

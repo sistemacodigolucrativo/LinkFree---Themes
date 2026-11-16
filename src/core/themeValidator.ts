@@ -34,12 +34,12 @@ export function validateThemeProject(project: ThemeProject): ValidationReport {
   checks.push({
     id: 'root-directory',
     category: 'structure',
-    label: 'Diretório raiz independente',
+    label: 'Estrutura themes/<Tema>/ idêntica ao padrão',
     status: cleanSlug.length >= 2 && cleanSlug === project.slug ? 'pass' : 'warn',
     detail:
       cleanSlug === project.slug
-        ? `Pasta raiz do pacote ZIP: ${cleanSlug}/ (sem pastas intermediárias indevidas).`
-        : `O slug "${project.slug}" será normalizado para "${cleanSlug}/" na exportação.`,
+        ? `Pacote estruturado em themes/${cleanSlug}/ (plug-and-play igual ao ZIP de referência).`
+        : `O slug "${project.slug}" será normalizado para themes/${cleanSlug}/ na exportação.`,
   });
 
   // 3. config.php static syntax & key check

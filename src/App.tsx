@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Eye, Sliders } from 'lucide-react';
 import { AuditDocsView } from './components/AuditDocsView';
 import { ExportZipModal } from './components/ExportZipModal';
+import { FullscreenTemplateSimulator } from './components/FullscreenTemplateSimulator';
 import { ImportZipModal } from './components/ImportZipModal';
 import { LinkStackSimulator } from './components/LinkStackSimulator';
 import { ThemeGallery } from './components/ThemeGallery';
@@ -26,7 +27,11 @@ export default function App() {
     return 'gallery';
   });
 
-  const [mobilePane, setMobilePane] = useState<'simulator' | 'editor'>('simulator');
+  const [mobilePane, setMobilePane] = useState<'simulator' | 'editor'>('editor');
+  const [simulatorFullscreen, setSimulatorFullscreen] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return new URLSearchParams(window.location.search).get('simulator') === '1';
+  });
   const [undoStack, setUndoStack] = useState<ThemeProject[]>([]);
   const [redoStack, setRedoStack] = useState<ThemeProject[]>([]);
   const [dirtyIds, setDirtyIds] = useState<Record<string, boolean>>({});
@@ -108,7 +113,23 @@ export default function App() {
     setActiveProjectId(project.id);
     setUndoStack([]);
     setRedoStack([]);
+    setMobilePane('editor');
     setActiveTab('editor');
+  };
+
+  const handleOpenSimulator = (project?: ThemeProject) => {
+    if (project) {
+      setActiveProjectId(project.id);
+    }
+    setSimulatorFullscreen(true);
+  };
+
+  const handleSelectTab = (tab: StudioTab) => {
+    if (tab === 'simulator') {
+      setSimulatorFullscreen(true);
+      return;
+    }
+    setActiveTab(tab);
   };
 
   const handleDuplicateProject = async (source: ThemeProject, asNewVersion = false) => {
@@ -267,8 +288,8 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0A0D14] text-slate-100">
       <TopBar
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
+        activeTab={simulatorFullscreen ? 'simulator' : activeTab}
+        onSelectTab={handleSelectTab}
         onOpenExport={() => setExportOpen(true)}
         activeProjectName={activeProject?.name}
       />
@@ -289,6 +310,7 @@ export default function App() {
             baseThemes={baseThemes}
             activeProjectId={activeProject?.id || ''}
             onSelectAndEdit={handleSelectAndEdit}
+            onSimulateProject={handleOpenSimulator}
             onDuplicateProject={handleDuplicateProject}
             onRenameProject={handleRenameProject}
             onDeleteProject={handleDeleteProject}
@@ -303,12 +325,8 @@ export default function App() {
             <div className="flex lg:hidden border-b border-slate-800 bg-[#0D111A] p-2 gap-2">
               <button
                 type="button"
-                onClick={() => setMobilePane('simulator')}
-                className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold cursor-pointer ${
-                  mobilePane === 'simulator'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                    : 'bg-slate-900 text-slate-400'
-                }`}
+                onClick={() => setSimulatorFullscreen(true)}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold cursor-pointer bg-slate-900 text-slate-200 hover:bg-cyan-500/15 hover:text-cyan-300"
               >
                 <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Simulador</span>
@@ -343,12 +361,11 @@ export default function App() {
             )}
 
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_430px] lg:h-[calc(100vh-3.5rem)] lg:overflow-hidden">
-              <div
-                className={`${
-                  mobilePane === 'simulator' ? 'flex' : 'hidden'
-                } lg:flex flex-col min-w-0 lg:overflow-hidden`}
-              >
-                <LinkStackSimulator project={activeProject} />
+              <div className="hidden lg:flex flex-col min-w-0 lg:overflow-hidden">
+                <LinkStackSimulator
+                  project={activeProject}
+                  onOpenFullscreen={() => setSimulatorFullscreen(true)}
+                />
               </div>
 
               <div
@@ -392,6 +409,19 @@ export default function App() {
           open={exportOpen}
           project={activeProject}
           onClose={() => setExportOpen(false)}
+        />
+      )}
+
+      {simulatorFullscreen && activeProject && (
+        <FullscreenTemplateSimulator
+          projects={projects}
+          activeProjectId={activeProject.id}
+          onSelectProjectId={(id) => {
+            setActiveProjectId(id);
+            setUndoStack([]);
+            setRedoStack([]);
+          }}
+          onBack={() => setSimulatorFullscreen(false)}
         />
       )}
     </div>
