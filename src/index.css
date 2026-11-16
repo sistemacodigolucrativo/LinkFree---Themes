@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --studio-font-display: 'Outfit', system-ui, sans-serif;
+    --studio-font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --studio-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  body {
+    font-family: var(--studio-font-body);
+    background-color: #0a0d14;
+    color: #e2e8f0;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--studio-font-display);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--studio-font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Studio custom thin scrollbars */
+.studio-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.studio-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.studio-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.22);
+  border-radius: 9999px;
+}
+
+.studio-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-motion-safe {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

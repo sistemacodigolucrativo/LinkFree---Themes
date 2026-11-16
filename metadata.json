@@ -1,0 +1,6 @@
+{
+  "name": "LinkStack Futuristic Theme Studio",
+  "description": "Laboratório visual interativo para criação, importação, personalização, simulação responsiva e exportação de temas futurísticos compatíveis com LinkStack.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
