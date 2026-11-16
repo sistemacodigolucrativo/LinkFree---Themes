@@ -1,0 +1,75 @@
+name: Publicar catálogo de temas LinkStack
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-theme-catalog.yml"
+      - "scripts/build-theme-catalog.ts"
+      - "scripts/render-theme-previews.py"
+      - "data/studio-projects.json"
+      - "reference-themes/**"
+      - "src/core/**"
+      - "src/assets/images/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar ferramentas
+        run: |
+          python -m pip install --quiet pillow
+          npm install --ignore-scripts --no-audit --no-fund
+      - name: Gerar previews e miniaturas
+        run: python scripts/render-theme-previews.py
+      - name: Empacotar cinco temas completos
+        run: npx tsx scripts/build-theme-catalog.ts
+      - name: Verificar ZIPs e thumbnails
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from PIL import Image
+          names = ("PolySleek", "galaxy", "CyberHorizon", "ObsidianGold", "HoloPrism")
+          req = {"config.php","readme.md","preview.png","skeleton-auto.css","brands.css","animations.css","share.button.css"}
+          for name in names:
+              folder = Path("themes") / name
+              thumb = folder / "thumbnail.png"
+              arc = folder / (name + ".zip")
+              assert thumb.is_file() and arc.is_file(), name
+              with Image.open(thumb) as img:
+                  assert img.size == (960,540), name
+              with ZipFile(arc) as z:
+                  assert z.testzip() is None, name
+                  entries = [f for f in z.namelist() if not f.endswith("/")]
+                  assert all(f.startswith(name + "/") for f in entries), name
+                  files = {f[len(name)+1:] for f in entries}
+                  assert req.issubset(files), (name, req-files)
+                  for blade in ("extra/custom-head.blade.php","extra/custom-body.blade.php"):
+                      if blade in files:
+                          content = z.read(name+"/"+blade)
+                          assert not content.lstrip().startswith(b"{-- "), (name, blade)
+              print("OK", name, len(files), "arquivos")
+          PY
+      - name: Publicar ZIPs e imagens no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add themes/
+          if git diff --cached --quiet; then
+            echo "Nenhuma atualização necessária."
+          else
+            git commit -m "Publicar ZIPs e miniaturas dos cinco temas LinkStack"
+            git push origin HEAD:main
+          fi
