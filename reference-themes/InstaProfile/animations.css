@@ -17,3 +17,32 @@ html, body, .container, .column, .button, .button-entrance, .fadein,
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/*
+ * Paridade com as classes CSS geradas pelo LinkStack Default:
+ * mantém os handlers JS, os links e o estado de foco, sem animações visuais.
+ */
+:where(.button-hover,.social-hover,.footer-hover,.credit-hover,.icon-hover,
+  .hvr-grow,.hvr-icon,.button-entrance,.fadein,.logo-container,
+  .social-link,.sharebutton,.button):is(:hover,:active,:focus,:focus-visible),
+:where(.button-hover,.social-hover,.footer-hover,.credit-hover,.icon-hover,
+  .hvr-grow,.hvr-icon,.button-entrance,.fadein,.logo-container) {
+  -webkit-animation: none !important;
+  animation: none !important;
+  -webkit-transition: none !important;
+  transition: none !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+:where(.button-hover,.social-hover,.footer-hover,.credit-hover,.icon-hover,.hvr-grow,.button-entrance,.fadein) :where(.hvr-icon,svg,img) {
+  -webkit-animation: none !important;
+  animation: none !important;
+  -webkit-transition: none !important;
+  transition: none !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html, body { scroll-behavior: auto !important; }
+}
