@@ -1,26 +1,26 @@
 /*
- * InstaProfile v1.0.0 — layout estático, mobile-first.
- * Inspirado na composição de perfis fotográficos: superfícies claras,
+ * InstaProfile v1.2.0 — Instagram DARK, estático e mobile-first.
+ * Inspirado na composição de perfis fotográficos: superfícies escuras,
  * bordas sutis, tipografia nativa e aro estático colorido no avatar.
  * Nenhuma animação, JavaScript externo ou dependência de fontes proprietárias.
  */
 :root {
-  --background-color: #fafafa;
-  --page-bg: #fafafa;
-  --surface-color: #ffffff;
-  --title-color: #262626;
-  --description-color: #525252;
-  --accent-color: #c13584;
-  --accent-blue: #0095f6;
-  --border-color: #dbdbdb;
-  --button-background-color: #ffffff;
-  --button-text-color: #262626;
-  --button-text-hover: #262626;
+  --background-color: #0d0d12;
+  --page-bg: #0d0d12;
+  --surface-color: #1b1a24;
+  --title-color: #ffffff;
+  --description-color: #d2cfd9;
+  --accent-color: #e44b9a;
+  --accent-blue: #8bcfff;
+  --border-color: #504457;
+  --button-background-color: #35233c;
+  --button-text-color: #ffffff;
+  --button-text-hover: #ffffff;
   --image-width: 108px;
   --image-height: 108px;
-  --image-border-color: #ffffff;
+  --image-border-color: #1b1a24;
   --image-border-px: 3px;
-  --svg-color: #262626;
+  --svg-color: #ffffff;
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-size: 16px;
 }
@@ -51,7 +51,7 @@ body {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 24px;
-  box-shadow: 0 10px 34px rgba(20, 20, 20, .045);
+  box-shadow:0 16px 55px rgba(0,0,0,.38);
   position: relative;
   text-align: center;
   float: none;
@@ -87,7 +87,7 @@ img { max-width: 100%; height: auto; }
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid transparent;
-  background: linear-gradient(#fff,#fff) padding-box,
+  background: linear-gradient(#221d29,#221d29) padding-box,
               linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5) border-box;
   box-shadow: none;
 }
@@ -164,7 +164,7 @@ hr { border: 0; height: 1px; background: var(--border-color); margin: 22px 0; op
 footer, .footer { color: #737373; font-size: .8rem; margin-top: 26px; }
 ::selection { background: #f7cde4; color: #262626; }
 @media (max-width: 479px) {
-  body { background: #ffffff; }
+  body { background:#0d0d12; }
   .container {
     width: 100%;
     max-width: none;
@@ -454,3 +454,48 @@ body > .sharediv, .sharediv {
   .container, .button, .sharebutton, .social-link { border: 1px solid CanvasText; }
   .container a:focus-visible, .container button:focus-visible { outline-color: Highlight; }
 }
+
+/* INSTAPROFILE 1.2: superfícies escuras e acentos da identidade Instagram.
+   A paleta altera SOMENTE apresentação. Eventos do LinkStack permanecem ativos. */
+html,body{background-color:#0d0d12;color:#fff;color-scheme:dark}
+body{background-image:radial-gradient(ellipse at 50% 0%,#30203e,#15131b 52%,#0d0d12 95%);background-attachment:fixed}
+body>.container{background:linear-gradient(155deg,#241e2d,#1b1a24 55%,#191720);
+  color:#fff;border-color:#56465a;box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.container .container{background:transparent;background-image:none;box-shadow:none;border:0}
+.container :where(h1,h2,h3,h4,h5,h6){color:#fff}
+.container :where(.description-parent,.description-parent p,.description,.profile-description){color:#d2cfd9}
+.container :where(p,li,.description-parent) a:not(.button){color:#8bcfff}
+.container :where(p,li,.description-parent) a:not(.button):hover{color:#c5e8ff}
+.container a:focus-visible,.container button:focus-visible,.container input:focus-visible{outline:3px solid #ffcc52;outline-offset:3px}
+#avatar,.rounded-avatar{box-shadow:0 0 0 4px #1e1b26,0 0 0 6px #df5f92,0 12px 28px rgba(0,0,0,.4)}
+.social-link{background:#292633;border-color:#56465a;color:#fff}
+.social-link:hover,.social-link:focus-visible{background:#382b43;color:#fff}
+.social-link:nth-child(5n+1){color:#f98bb8;border-color:#a24480}
+.social-link:nth-child(5n+2){color:#c7a2ff;border-color:#7143a5}
+.social-link:nth-child(5n+3){color:#ffc089;border-color:#ad5e31}
+.social-link:nth-child(5n+4){color:#91d4ff;border-color:#4267a4}
+.social-link:nth-child(5n){color:#ffde7d;border-color:#a78334}
+footer,.footer{color:#d2cfd9}
+.container .container .footer,.container .footer{color:#d2cfd9;background:transparent}
+.container .footer .spacing,.container .container .footer .spacing{color:#d2cfd9;text-decoration-color:#bc80e5}
+.container .footer .spacing:hover{color:#fff}
+.container blockquote{background:#292231;color:#f5eff7;border-inline-start-color:#e44b9a}
+.container :where(pre){background:#17151d;border-color:#504457;color:#f4eff7}
+.container code:not(pre code){background:#33263b;border-color:#645071;color:#ffe5f5}
+.container :where(th,td){border-bottom-color:#57485c;color:#f6f0fa}
+.container th{color:#fff}
+.container tr:nth-child(even){background:#25212d}
+.container fieldset,.container details{border-color:#64516a;background:#241f2b}
+.container legend,.container label{color:#f5f1f9}
+.container :where(input[type="text"],input[type="email"],input[type="tel"],
+ input[type="url"],input[type="number"],input[type="search"],input[type="password"],
+ input[type="date"],textarea,select){border-color:#73657b;background:#2b2734;color:#fff}
+.container :where(input,textarea)::placeholder{color:#c2baca;opacity:1}
+.container :where(button:not(.sharebutton),input[type="submit"],input[type="button"],input[type="reset"]){background:#52306b;color:#fff;border-color:#a278b4}
+.container :where(button:not(.sharebutton),input[type="submit"],input[type="button"],input[type="reset"]):hover{background:#673681}
+.container :where(figcaption){color:#c9bfd0}
+.container :where(mark){background:#ffde87;color:#292026}
+.container .button-spacer{background:transparent}
+::selection{background:#a52f80;color:#fff}
+@media(max-width:479px){body{background:#0d0d12}
+ body>.container{background:linear-gradient(155deg,#211c2b,#19171f);border:0;box-shadow:none}}
