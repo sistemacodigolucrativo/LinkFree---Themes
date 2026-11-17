@@ -1,6 +1,17 @@
 name: Publicar catálogo de temas LinkStack
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-theme-catalog.yml"
+      - "scripts/build-theme-catalog.ts"
+      - "scripts/render-theme-previews.py"
+      - "scripts/audit-instaprofile.py"
+      - "data/studio-projects.json"
+      - "reference-themes/**"
+      - "src/core/**"
+      - "src/assets/images/**"
   push:
     branches: [main]
     paths:
@@ -74,6 +85,7 @@ jobs:
               print("OK", name, len(files), "arquivos")
           PY
       - name: Publicar ZIPs e imagens no repositório
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
