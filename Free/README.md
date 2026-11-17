@@ -8,6 +8,7 @@ Cada tema possui sua própria pasta com um arquivo ZIP **pronto para enviar ao i
 | Obsidian Gold | [![Obsidian Gold](ObsidianGold/thumbnail.png)](ObsidianGold/) | [ObsidianGold.zip](ObsidianGold/ObsidianGold.zip) |
 | Holo Prism | [![Holo Prism](HoloPrism/thumbnail.png)](HoloPrism/) | [HoloPrism.zip](HoloPrism/HoloPrism.zip) |
 | PolySleek | [![PolySleek](PolySleek/thumbnail.png)](PolySleek/) | [PolySleek.zip](PolySleek/PolySleek.zip) |
+| InstaProfile (Estático) | [![InstaProfile](InstaProfile/thumbnail.png)](InstaProfile/) | [InstaProfile.zip](InstaProfile/InstaProfile.zip) |
 | Galaxy | [![Galaxy](galaxy/thumbnail.png)](galaxy/) | [galaxy.zip](galaxy/galaxy.zip) |
 
 ## Como instalar
@@ -23,3 +24,4 @@ As miniaturas dos temas futurísticos são **representações visuais baseadas n
 ## Atualização
 
 A automação [Publicar catálogo de temas LinkStack](../.github/workflows/publish-theme-catalog.yml) refaz os ZIPs e as thumbnails quando as configurações ou as referências dos temas são atualizadas. Os dois temas de referência mantêm os arquivos originais e suas licenças.
+**InstaProfile:** tema derivado da estrutura PolySleek, com visual claro inspirado em perfis fotográficos, sem animações, JavaScript ou fontes proprietárias. Layout mobile-first, com prévia ilustrativa e arquivo ZIP importável.
