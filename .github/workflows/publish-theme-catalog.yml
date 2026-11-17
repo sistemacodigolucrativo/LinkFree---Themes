@@ -1,12 +1,24 @@
 name: Publicar catálogo de temas LinkStack
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-theme-catalog.yml"
+      - "scripts/build-theme-catalog.ts"
+      - "scripts/render-theme-previews.py"
+      - "scripts/audit-instaprofile.py"
+      - "data/studio-projects.json"
+      - "reference-themes/**"
+      - "src/core/**"
+      - "src/assets/images/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/publish-theme-catalog.yml"
       - "scripts/build-theme-catalog.ts"
       - "scripts/render-theme-previews.py"
+      - "scripts/audit-instaprofile.py"
       - "data/studio-projects.json"
       - "reference-themes/**"
       - "src/core/**"
@@ -29,10 +41,20 @@ jobs:
           python-version: "3.12"
       - name: Instalar ferramentas
         run: |
-          python -m pip install --quiet pillow
+          python -m pip install --quiet pillow playwright tinycss2
           npm install --legacy-peer-deps --ignore-scripts --no-audit --no-fund
       - name: Gerar previews e miniaturas
         run: python scripts/render-theme-previews.py
+      - name: Auditar responsividade e paridade do InstaProfile no Chrome
+        run: python scripts/audit-instaprofile.py
+      - name: Guardar capturas de tela da auditoria
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instaprofile-qa-screenshots
+          path: .theme-build/qa/*.png
+          if-no-files-found: ignore
+          retention-days: 10
       - name: Empacotar seis temas completos
         run: npx tsx scripts/build-theme-catalog.ts
       - name: Verificar ZIPs e thumbnails
@@ -63,6 +85,7 @@ jobs:
               print("OK", name, len(files), "arquivos")
           PY
       - name: Publicar ZIPs e imagens no repositório
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

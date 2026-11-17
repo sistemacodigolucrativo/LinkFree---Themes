@@ -1,7 +1,7 @@
 # A LinkStack Theme
 
 * Theme Name: InstaProfile
-* Theme Version: 1.0.0
+* Theme Version: 1.1.0
 * Theme Date: 16/11/2026
 * Theme Author: LinkFree Theme Studio (based on PolySleek by JulianPrieber & LinkStack Team)
 * Theme Author URI: https://github.com/sistemacodigolucrativo/LinkFree---Themes
@@ -21,3 +21,6 @@ InstaProfile é um tema estático de perfil de links, com linguagem visual inspi
 Base original PolySleek: JulianPrieber & LinkStack Team — MIT.
 Base CSS Skeleton: https://github.com/dhg/Skeleton — MIT.
 Esta adaptação preserva a licença MIT.
+
+## Compatibilidade com Default Theme
+A aparência é personalizada, mas os elementos do LinkStack continuam com seus handlers: botões, links, ícones, perfil, rodapé, compartilhar, blocos de texto/título/espaçador, formulários e mídias HTML incorporadas. O CSS ajusta imagens, vídeos, iframes e tabelas a telas móveis; não cria novos tipos de blocos. Veja `docs/AUDITORIA-INSTAPROFILE-PARIDADE-DEFAULT.md` no repositório. Valide integrações com serviços externos em homologação.

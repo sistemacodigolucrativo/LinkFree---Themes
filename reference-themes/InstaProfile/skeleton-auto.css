@@ -189,3 +189,268 @@ footer, .footer { color: #737373; font-size: .8rem; margin-top: 26px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* --------------------------------------------------------------------------
+ * AUDITORIA DE PARIDADE LINKSTACK DEFAULT — v1.1
+ * O motor de blocos, links, rastreamento, compartilhamento e embeds continua
+ * sendo o LinkStack. Este CSS ajusta apenas apresentação e responsividade.
+ * -------------------------------------------------------------------------- */
+
+/* O footer nativo injeta .container dentro do cartão principal. Evita criar
+ * um segundo cartão e repetir a barra colorida dentro do próprio rodapé. */
+.container .container {
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.container .container::before { display: none; }
+.container .container .footer { width: 100%; margin: 24px 0 22px !important; padding: 0 4px; }
+.container .container .credit-hover { max-width: 100%; margin: 12px 0 !important; padding-bottom: 26px !important; }
+.container .container .credit-hover img { max-width: min(200px, 100%); height: auto; }
+.container .footer .spacing { display: inline-block; padding: 8px 10px; color: #616161; text-decoration: underline; text-underline-offset: 3px; }
+.container .footer .spacing:hover { color: #292929; }
+.container .footer .spacing:focus-visible { outline: 3px solid #0067b4; outline-offset: 2px; }
+
+/* Corrige o botão de compartilhamento nativo, colocado antes do cartão.
+ * A largura fica alinhada ao cartão, inclusive no mobile. */
+body > .sharediv, .sharediv {
+  max-width: 640px;
+  width: calc(100% - 28px);
+  margin: 10px auto -4px;
+  padding: 0 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+/* Containers com conteúdo inserido por blocos / HTML autorizado. */
+.container :where(.row, .column, .columns, .description-parent, .button-entrance,
+  .button-spacer, article, section, figure, .card, .card-body, .embed-responsive,
+  .ratio, .wp-block-embed) {
+  min-width: 0;
+  max-width: 100%;
+}
+.container .description-parent {
+  margin-inline: auto;
+  max-width: 100%;
+  text-align: center;
+}
+.container :where(h1,h2,h3,h4,h5,h6,p,li,dt,dd,figcaption,small,strong,em) {
+  overflow-wrap: anywhere;
+}
+.container :where(h2,h3) { margin: 18px 0 12px; }
+.container :where(p,li,blockquote) { line-height: 1.6; }
+.container :where(ul,ol,dl) {
+  max-width: 100%;
+  margin: 12px 0 22px;
+  padding-inline-start: 1.5rem;
+  text-align: start;
+}
+.container :where(li,dt,dd) { margin: 4px 0; }
+.container blockquote {
+  margin: 14px 0 22px;
+  padding: 12px 16px;
+  border-inline-start: 4px solid #c13584;
+  border-radius: 0 9px 9px 0;
+  background: #faf7fa;
+  color: #333;
+  text-align: start;
+}
+.container :where(mark) { background: #fff1b8; color: #242424; }
+.container :where(a:not(.button):not(.social-link):not(.sharebutton)) {
+  text-underline-offset: 3px;
+}
+.container :where(a:not(.button):not(.social-link):not(.sharebutton)):focus-visible {
+  outline: 3px solid #0067b4; outline-offset: 3px;
+}
+.container :where(.description-parent a,p a:not(.button),li a:not(.button)) {
+  color: #0067b4;
+}
+.container :where(.description-parent a,p a:not(.button),li a:not(.button)):hover {
+  color: #004d82;
+}
+.container :where(.button-spacer) { width: 100%; flex: none; }
+
+/* Imagens, galerias e cards de mídia.
+ * Respeita proporção original, evita largura fixa e não cobre controles. */
+.container :where(img:not(#avatar),picture,figure,svg,canvas) { max-width: 100%; }
+.container :where(img:not(#avatar)) { height: auto; }
+.container :where(picture,figure) { width: auto; max-width: 100%; margin-inline: auto; }
+.container picture img, .container figure img { display: block; margin-inline: auto; }
+.container :where(figcaption) {
+  max-width: 100%;
+  margin-top: 8px;
+  color: #616161;
+  font-size: .88rem;
+  line-height: 1.45;
+  text-align: center;
+}
+.container :where(.gallery,.gallery-grid,[class*="gallery"]) { max-width: 100%; }
+.container :where(.gallery img,.gallery-grid img) {
+  max-width: 100%; height: auto; object-fit: contain;
+}
+
+/* Vídeos, áudio, players e serviços de embed nativos ou autorizados.
+ * Não insere iframes, não faz fetch externo e não altera seu JavaScript. */
+.container :where(video,audio,iframe,embed,object) {
+  display: block;
+  max-width: 100% !important;
+  margin-inline: auto;
+}
+.container :where(video) { width: auto; max-height: 85vh; height: auto; }
+.container :where(audio) { width: 100%; min-height: 44px; }
+.container :where(iframe,embed,object) { min-width: 0 !important; }
+.container :where(iframe[src*="youtube.com/embed/"],
+  iframe[src*="youtube-nocookie.com/embed/"],iframe[src*="player.vimeo.com/video/"],
+  iframe[src*="facebook.com/plugins/video"]) {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+.container :where(iframe[src*="instagram.com/p/"],iframe[src*="instagram.com/reel/"],
+  iframe[src*="tiktok.com/embed/"]) {
+  width: 100% !important;
+  max-width: 540px !important;
+  min-height: 360px;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border: 0;
+}
+.container :where(.instagram-media,.tiktok-embed,.twitter-tweet,
+  .fb-post,.fb-video,.wp-block-embed,.embed-responsive,.ratio) {
+  max-width: 100% !important;
+  width: 100%;
+  margin-inline: auto !important;
+  box-sizing: border-box;
+}
+/* Bloquear apenas overflow horizontal em prévias de código, não dos embeds. */
+.container :where(pre) {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  text-align: start;
+  padding: 13px 16px;
+  background: #f6f6f6;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  font: .88rem/1.5 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}
+.container pre code {
+  display: inline;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  white-space: inherit;
+  font: inherit;
+}
+.container code:not(pre code) {
+  background: #f5f5f5;
+  padding: .15em .35em;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+/* Tabelas: em telas pequenas tornam-se roláveis em vez de estourar a viewport.
+ * Renderização de células e conteúdo preservada. */
+.container table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  text-align: start;
+  -webkit-overflow-scrolling: touch;
+}
+.container :where(th,td) {
+  padding: 9px 12px;
+  border-bottom: 1px solid #e7e7e7;
+  font-size: .92rem;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+.container th { color: #262626; font-weight: 700; }
+.container tr:nth-child(even) { background: #fafafa; }
+
+/* Inputs e formulários injetados por blocos: compatíveis com teclado mobile. */
+.container :where(form,fieldset) { max-width: 100%; min-width: 0; }
+.container fieldset { border: 1px solid #dbdbdb; padding: 14px; border-radius: 12px; margin: 16px 0; }
+.container legend { max-width: 100%; padding: 0 6px; font-weight: 700; }
+.container label { display: block; margin: 8px 0 5px; color: #353535; font-size: .93rem; text-align: start; }
+.container :where(input[type="text"],input[type="email"],input[type="tel"],
+  input[type="url"],input[type="number"],input[type="search"],input[type="password"],
+  input[type="date"],textarea,select) {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+  color: #262626;
+  background: #ffffff;
+  font: inherit;
+  line-height: 1.4;
+}
+.container textarea { min-height: 108px; resize: vertical; }
+.container :where(input,textarea,select,button):focus-visible {
+  outline: 3px solid #0067b4;
+  outline-offset: 2px;
+}
+.container :where(input[type="checkbox"],input[type="radio"]) {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  accent-color: #c13584;
+}
+.container :where(button:not(.sharebutton),input[type="submit"],input[type="button"],input[type="reset"]) {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 10px 18px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #262626;
+  font-size: .95rem; font-weight: 600; line-height: 1.4; font-family: inherit;
+  cursor: pointer;
+}
+.container :where(button:disabled,input:disabled,select:disabled,textarea:disabled) {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.container :where(details) { margin: 14px 0; border: 1px solid #e4e4e4; border-radius: 10px; text-align: start; }
+.container summary { padding: 11px 14px; cursor: pointer; font-weight: 600; }
+.container details > :not(summary) { margin-inline: 14px; }
+
+/* Alta densidade e telas pequenas: limites seguros, sem barra horizontal. */
+@media (max-width: 479px) {
+  .sharediv { width: 100%; max-width: 100%; margin: 0 auto; padding: 10px 15px 0; }
+  .container { padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); }
+  .container :where(figure,blockquote) { margin-inline: 0; }
+  .container :where(h2) { font-size: 1.18rem; }
+  .container .container .footer .spacing { padding: 9px 7px; }
+}
+@media (max-width: 359px) {
+  .container :where(th,td) { padding: 8px; }
+  .container :where(iframe[src*="instagram.com/"],iframe[src*="tiktok.com/"]) {
+    min-height: 320px;
+  }
+}
+@media (forced-colors: active) {
+  .container, .button, .sharebutton, .social-link { border: 1px solid CanvasText; }
+  .container a:focus-visible, .container button:focus-visible { outline-color: Highlight; }
+}
