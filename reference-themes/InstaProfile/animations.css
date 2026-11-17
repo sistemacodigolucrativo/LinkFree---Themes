@@ -1,0 +1,19 @@
+/*
+ * InstaProfile é um tema propositalmente ESTÁTICO.
+ * Este arquivo mantém compatibilidade com o carregador LinkStack,
+ * neutralizando transições e animações do tema-base.
+ */
+html, body, .container, .column, .button, .button-entrance, .fadein,
+.logo-container, .social-icon, .social-link, .button-hover, .icon-hover,
+.sharebutton, .toastbox, .parallax-background, .background-container,
+#avatar, img, h1, h2, h3 {
+  animation: none !important;
+  -webkit-animation: none !important;
+  transition: none !important;
+  -webkit-transition: none !important;
+}
+.button-entrance, .fadein, .logo-container { opacity: 1 !important; transform: none !important; }
+.parallax-background, .background-container { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
