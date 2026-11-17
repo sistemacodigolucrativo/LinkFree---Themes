@@ -40,6 +40,14 @@ def file_checks():
         css_errors((THEME / name).read_text("utf-8"), name)
     assert "@keyframes" not in css.lower()
     assert "@import" not in css.lower()
+    # Identidade solicitada: não aceitar um regressão para o tema todo claro.
+    for color in ("#0d0d12", "#1b1a24", "#e44b9a", "#8bcfff"):
+        assert color in css.lower(), f"Cor ausente da paleta Dark: {color}"
+    assert "button-entrance:nth-of-type(4n+1)" in css
+    assert "button-entrance:nth-of-type(4n+2)" in css
+    assert "button-entrance:nth-of-type(4n+3)" in css
+    assert "button-entrance:nth-of-type(4n)" in css
+    assert "linear-gradient" in css
     for selector in ("iframe", "video", "audio", "table", "pre", "textarea", "fieldset",
                      ".container .container", ".social-icon-div", ".button-entrance",
                      ".sharediv", "prefers-reduced-motion", "focus-visible", "max-width"):
@@ -113,6 +121,14 @@ def test_browser():
                     page.add_style_tag(content=(THEME / name).read_text("utf-8"))
                 page.locator("body").wait_for()
 
+                # Confirmar que o tema renderizado usa fundo escuro e não branco.
+                background = page.evaluate("getComputedStyle(document.body).backgroundColor")
+                assert background == "rgb(13, 13, 18)", f"Fundo claro inesperado {width}: {background}"
+                first = page.locator("#link1").evaluate("(node) => getComputedStyle(node).backgroundImage")
+                second = page.locator("#link2").evaluate("(node) => getComputedStyle(node).backgroundImage")
+                assert "gradient" in first and "gradient" in second and first != second, (
+                    f"Botões sem diversidade visual em {width}: {first} / {second}"
+                )
                 m = page.evaluate("""() => {
                   const get=id=>document.getElementById(id), box=id=>get(id).getBoundingClientRect();
                   const con=document.querySelector('body > .container').getBoundingClientRect();
