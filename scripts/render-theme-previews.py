@@ -14,50 +14,51 @@ def rgb(v):
 def blend(a,b,t):
     return tuple(round(a[i]*(1-t)+b[i]*t) for i in range(3))
 def create_instaprofile():
-    """Prévia ilustrativa da página LinkStack, sem APIs ou marcas externas."""
+    """Prévia ilustrativa (não screenshot): InstaProfile 1.2 Dark, layout mobile-first."""
     W, H = 1920, 1080
-    im = Image.new("RGB", (W, H), "#fafafa")
+    im = Image.new("RGB", (W, H), "#0D0D12")
     d = ImageDraw.Draw(im)
+    # Fundo escuro com faixas de cores estáticas, inspirado em identidade fotográfica
+    for y in range(H):
+        shade = blend((13, 13, 18), (42, 24, 58), .55 * (1 - y / H))
+        d.line((0, y, W, y), fill=shade)
     x0, y0, x1, y1 = 565, 22, 1355, 1058
-    d.rounded_rectangle((x0 + 12, y0 + 12, x1 + 12, y1 + 12), radius=48, fill="#ececec")
+    d.rounded_rectangle((x0 + 13, y0 + 15, x1 + 13, y1 + 15),
+                        radius=48, fill="#0A090C")
     d.rounded_rectangle((x0, y0, x1, y1), radius=48,
-                        fill="#ffffff", outline="#dbdbdb", width=3)
-    # Barra de cores estática, inspirada no universo fotográfico
-    palette = ["#feda75", "#fa7e1e", "#d62976", "#962fbf", "#4f5bd5"]
-    segment = 280 // len(palette)
+                        fill="#201B29", outline="#63516B", width=3)
+    palette = ["#FEDA75", "#FA7E1E", "#D62976", "#962FBF", "#4F5BD5"]
     for i, color in enumerate(palette):
-        d.rounded_rectangle((820 + i * segment, 54, 828 + (i + 1) * segment, 63), radius=4, fill=color)
-
+        d.rounded_rectangle((824 + i*56, 54, 833 + (i+1)*56, 65),
+                            radius=5, fill=color)
     cx, cy = 960, 202
-    ring = ["#feda75", "#fa7e1e", "#d62976", "#962fbf", "#4f5bd5"]
-    for i, color in enumerate(ring):
-        d.arc((cx - 91, cy - 91, cx + 91, cy + 91),
-              start=270 + i * 72, end=270 + (i + 1) * 72 + 2,
-              fill=color, width=12)
-    d.ellipse((cx - 77, cy - 77, cx + 77, cy + 77), fill="#f4edf4")
-    d.text((cx, cy - 4), "IP", anchor="mm", font=font(69, True), fill="#6f446d")
-
-    d.text((cx, 345), "Meu Perfil Criativo", font=font(57, True), fill="#262626", anchor="mm")
-    d.text((cx, 401), "@exemplo  ·  Criadora digital", font=font(28), fill="#525252", anchor="mm")
-    d.text((cx, 443), "Projetos, conteudo e tudo em um so lugar.", font=font(24), fill="#737373", anchor="mm")
-
-    # Ícones circulares de redes sociais
-    for i, mark in enumerate(["@", "#", "+", "o"]):
-        x = cx - 102 + 68 * i
-        d.ellipse((x - 24, 479, x + 24, 527), outline="#dbdbdb", width=3, fill="#ffffff")
-        d.text((x, 501), mark, font=font(23, True), fill="#262626", anchor="mm")
-
-    buttons = ["PORTFOLIO", "MEUS PROJETOS", "REDES SOCIAIS", "FALE COMIGO"]
-    for i, label in enumerate(buttons):
-        top = 553 + 112 * i
-        d.rounded_rectangle((643, top, 1277, top + 88), radius=21,
-                            fill="#fff9fc" if i == 0 else "#ffffff",
-                            outline="#eec9e0" if i == 0 else "#dbdbdb", width=3)
-        d.text((960, top + 45), label, font=font(31, True),
-               fill="#8e2460" if i == 0 else "#262626", anchor="mm")
-
-    d.text((960, 1031), "Prévia ilustrativa · InstaProfile · Estático",
-           font=font(20), fill="#8a8a8a", anchor="mm")
+    for i, color in enumerate(palette):
+        d.arc((cx-90,cy-90,cx+90,cy+90),
+              start=270+i*72, end=272+(i+1)*72, fill=color, width=13)
+    d.ellipse((cx-74, cy-74, cx+74, cy+74), fill="#3B2945")
+    d.text((cx,cy-4), "IP",anchor="mm",font=font(67,True),fill="#F6D5EC")
+    d.text((cx,343),"Meu Perfil Criativo",font=font(56,True),fill="#FFFFFF",anchor="mm")
+    d.text((cx,402),"@exemplo  ·  Criadora digital",font=font(28),fill="#D2CFD9",anchor="mm")
+    d.text((cx,445),"Projetos, conteudo e tudo em um so lugar.",font=font(24),fill="#D2CFD9",anchor="mm")
+    icons = [("@","#F98BB8","#8E497A"),("#","#C7A2FF","#65479B"),
+             ("+","#FFC089","#98602B"),("o","#91D4FF","#4267A4")]
+    for i, (mark, fg, bg) in enumerate(icons):
+        x = cx - 102 + 68*i
+        d.ellipse((x-24,479,x+24,527),outline=bg,width=3,fill="#292633")
+        d.text((x,501),mark,font=font(23,True),fill=fg,anchor="mm")
+    buttons=[
+        ("PORTFOLIO","#8B287B","#D267BF"),
+        ("MEUS PROJETOS","#A1441E","#EB9273"),
+        ("REDES SOCIAIS","#284F9E","#7BAEF8"),
+        ("FALE COMIGO","#3C2F50","#A481C4")
+    ]
+    for i,(label,bg,border) in enumerate(buttons):
+        top=553+112*i
+        d.rounded_rectangle((643,top,1277,top+88),radius=20,
+                            fill=bg,outline=border,width=3)
+        d.text((960,top+45),label,font=font(31,True),fill="#FFFFFF",anchor="mm")
+    d.text((960,1031),"InstaProfile Dark · Prévia ilustrativa",
+           font=font(20),fill="#D2CFD9",anchor="mm")
     return im
 
 
