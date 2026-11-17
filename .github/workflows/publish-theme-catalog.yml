@@ -33,7 +33,7 @@ jobs:
           npm install --legacy-peer-deps --ignore-scripts --no-audit --no-fund
       - name: Gerar previews e miniaturas
         run: python scripts/render-theme-previews.py
-      - name: Empacotar cinco temas completos
+      - name: Empacotar seis temas completos
         run: npx tsx scripts/build-theme-catalog.ts
       - name: Verificar ZIPs e thumbnails
         run: |
@@ -41,7 +41,7 @@ jobs:
           from pathlib import Path
           from zipfile import ZipFile
           from PIL import Image
-          names = ("PolySleek", "galaxy", "CyberHorizon", "ObsidianGold", "HoloPrism")
+          names = ("PolySleek", "galaxy", "CyberHorizon", "ObsidianGold", "HoloPrism", "InstaProfile")
           req = {"config.php","readme.md","preview.png","skeleton-auto.css","brands.css","animations.css","share.button.css"}
           for name in names:
               folder = Path("Free") / name
@@ -70,6 +70,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nenhuma atualização necessária."
           else
-            git commit -m "Publicar ZIPs e miniaturas dos cinco temas LinkStack"
+            git commit -m "Publicar ZIPs e miniaturas dos seis temas LinkStack"
             git push origin HEAD:main
           fi

@@ -4,7 +4,7 @@ import JSZip from "jszip";
 import { generateThemePackageFiles } from "../src/core/linkstackGenerator";
 import type { ThemeProject } from "../src/core/types";
 
-const names = ["PolySleek","galaxy","CyberHorizon","ObsidianGold","HoloPrism"];
+const names = ["PolySleek","galaxy","CyberHorizon","ObsidianGold","HoloPrism","InstaProfile"];
 const projects: ThemeProject[] = JSON.parse(await fs.readFile("data/studio-projects.json","utf8"));
 const needed = ["config.php","readme.md","preview.png","skeleton-auto.css","brands.css","animations.css","share.button.css"];
 async function recursive(folder: string, root = folder): Promise<{file:string,data:Buffer}[]> {
@@ -28,6 +28,12 @@ for (const slug of names) {
     for (const f of await recursive(path.join("reference-themes",slug))) {
       dest.file(f.file,f.data);
       present.add(f.file);
+    }
+    // O tema InstaProfile possui fonte CSS estática; a captura ilustrativa é
+    // produzida pelo renderizador, sem copiar a prévia de PolySleek.
+    if (slug === "InstaProfile") {
+      dest.file("preview.png", await fs.readFile(path.join(".theme-build/previews",slug,"preview.png")));
+      present.add("preview.png");
     }
   } else {
     for (const f of generateThemePackageFiles(project)) {
