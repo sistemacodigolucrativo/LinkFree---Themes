@@ -1,67 +1,52 @@
-/* InstaProfile — botões e ícones estáticos, touch-first */
-.rounded-avatar { border-radius: 50%; }
-.button, a.button, .button.button-hover {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .62rem;
-  width: 100%;
-  max-width: 100%;
-  min-height: 54px;
-  height: auto;
-  margin: 0 auto 12px !important;
-  padding: 13px 16px;
-  border: 1px solid #dbdbdb;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 3px 11px rgba(0,0,0,.035);
-  color: #262626;
-  font: 600 clamp(.91rem, 2.7vw, 1rem)/1.36 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-align: center;
-  text-decoration: none;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-  word-break: normal;
-  white-space: normal;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: none !important;
-  animation: none !important;
-  transform: none !important;
+/* InstaProfile 1.2 — botões e ícones de plataformas: diversidade de cores, estático. */
+.rounded-avatar{border-radius:50%}
+.button,a.button,.button.button-hover{
+ position:relative;display:flex;align-items:center;justify-content:center;
+ gap:.62rem;width:100%;max-width:100%;min-height:54px;height:auto;
+ margin:0 auto 12px!important;padding:13px 16px;
+ border:1px solid #82487d;border-radius:12px;
+ background:linear-gradient(125deg,#762c74,#9f286c);
+ color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);
+ font:600 clamp(.91rem,2.7vw,1rem)/1.36 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+ text-align:center;text-decoration:none;letter-spacing:0;
+ overflow-wrap:anywhere;white-space:normal;cursor:pointer;
+ -webkit-tap-highlight-color:transparent;
+ transition:none!important;animation:none!important;transform:none!important;
 }
-.button:hover, a.button:hover { background: #f6f6f6; border-color: #c7c7c7; color: #262626; }
-.button:active, a.button:active { background: #eeeeee; color: #262626; }
-.button:focus-visible, a.button:focus-visible { outline: 3px solid #0095f6; outline-offset: 3px; }
-.button-instagram, a.button-instagram, .button[href*="instagram.com"] {
-  background: #fff9fc;
-  border-color: #eec9e0;
-  color: #8e2460;
+.button-entrance:nth-of-type(4n+1)>.button{
+ background:linear-gradient(115deg,#a62473,#7534a7);border-color:#d569c0;
 }
-.button-instagram:hover, a.button-instagram:hover, .button[href*="instagram.com"]:hover { background: #fff0f8; color: #7b2055; }
-.icon, .hvr-icon, .button img.icon {
-  position: static;
-  flex: 0 0 21px;
-  width: 21px;
-  height: 21px;
-  max-width: 21px;
-  max-height: 21px;
-  padding: 0;
-  margin: 0;
-  vertical-align: middle;
-  filter: none;
-  -webkit-filter: none;
+.button-entrance:nth-of-type(4n+2)>.button{
+ background:linear-gradient(115deg,#9e3560,#b4481c);border-color:#ef9270;
 }
-.button i.icon { flex: 0 0 auto; font-size: 1.08rem; }
-.social-icon { color: #262626; font-size: 21px; line-height: 1; }
-.social-link { text-decoration: none; }
-.social-link:hover, .social-link:active { color: #262626; }
-.button .icon:hover, .button img:hover { transform: none !important; }
-@media (max-width: 479px) {
-  .button, a.button, .button.button-hover {
-    min-height: 50px;
-    padding: 12px 13px;
-    border-radius: 11px;
-    margin-bottom: 11px !important;
-  }
+.button-entrance:nth-of-type(4n+3)>.button{
+ background:linear-gradient(115deg,#234e99,#2e68b8);border-color:#75afff;
+}
+.button-entrance:nth-of-type(4n)>.button{
+ background:linear-gradient(115deg,#332b43,#4b345e);border-color:#9a77bc;
+}
+.button-entrance>.button[href*="instagram.com"],
+.button-entrance>.button.button-instagram{
+ background:linear-gradient(110deg,#b42876,#84339e 55%,#a54520);
+ border-color:#f17b9c;color:#fff;
+}
+.button:hover,a.button:hover,.button:active,a.button:active{
+ filter:brightness(1.13);color:#fff;
+}
+.button:focus-visible,a.button:focus-visible{
+ outline:3px solid #ffce52;outline-offset:3px;color:#fff;
+}
+.icon,.hvr-icon,.button img.icon{
+ position:static;flex:0 0 21px;width:21px;height:21px;max-width:21px;max-height:21px;
+ padding:0;margin:0;vertical-align:middle;filter:none;-webkit-filter:none;
+}
+.button i.icon{flex:0 0 auto;font-size:1.08rem}
+.social-icon{color:inherit;font-size:21px;line-height:1}
+.social-link{text-decoration:none}
+.social-link:hover,.social-link:active{color:inherit}
+.button .icon:hover,.button img:hover{transform:none!important}
+@media(max-width:479px){
+ .button,a.button,.button.button-hover{
+  min-height:50px;padding:12px 13px;border-radius:11px;margin-bottom:11px!important;
+ }
 }
