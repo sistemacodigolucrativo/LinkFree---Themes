@@ -13,8 +13,58 @@ def rgb(v):
     return tuple(int(v[i:i+2],16) for i in (0,2,4))
 def blend(a,b,t):
     return tuple(round(a[i]*(1-t)+b[i]*t) for i in range(3))
+def create_instaprofile():
+    """Prévia ilustrativa da página LinkStack, sem APIs ou marcas externas."""
+    W, H = 1920, 1080
+    im = Image.new("RGB", (W, H), "#fafafa")
+    d = ImageDraw.Draw(im)
+    x0, y0, x1, y1 = 565, 22, 1355, 1058
+    d.rounded_rectangle((x0 + 12, y0 + 12, x1 + 12, y1 + 12), radius=48, fill="#ececec")
+    d.rounded_rectangle((x0, y0, x1, y1), radius=48,
+                        fill="#ffffff", outline="#dbdbdb", width=3)
+    # Barra de cores estática, inspirada no universo fotográfico
+    palette = ["#feda75", "#fa7e1e", "#d62976", "#962fbf", "#4f5bd5"]
+    segment = 280 // len(palette)
+    for i, color in enumerate(palette):
+        d.rounded_rectangle((820 + i * segment, 54, 828 + (i + 1) * segment, 63), radius=4, fill=color)
+
+    cx, cy = 960, 202
+    ring = ["#feda75", "#fa7e1e", "#d62976", "#962fbf", "#4f5bd5"]
+    for i, color in enumerate(ring):
+        d.arc((cx - 91, cy - 91, cx + 91, cy + 91),
+              start=270 + i * 72, end=270 + (i + 1) * 72 + 2,
+              fill=color, width=12)
+    d.ellipse((cx - 77, cy - 77, cx + 77, cy + 77), fill="#f4edf4")
+    d.text((cx, cy - 4), "IP", anchor="mm", font=font(69, True), fill="#6f446d")
+
+    d.text((cx, 345), "Meu Perfil Criativo", font=font(57, True), fill="#262626", anchor="mm")
+    d.text((cx, 401), "@exemplo  ·  Criadora digital", font=font(28), fill="#525252", anchor="mm")
+    d.text((cx, 443), "Projetos, conteudo e tudo em um so lugar.", font=font(24), fill="#737373", anchor="mm")
+
+    # Ícones circulares de redes sociais
+    for i, mark in enumerate(["@", "#", "+", "o"]):
+        x = cx - 102 + 68 * i
+        d.ellipse((x - 24, 479, x + 24, 527), outline="#dbdbdb", width=3, fill="#ffffff")
+        d.text((x, 501), mark, font=font(23, True), fill="#262626", anchor="mm")
+
+    buttons = ["PORTFOLIO", "MEUS PROJETOS", "REDES SOCIAIS", "FALE COMIGO"]
+    for i, label in enumerate(buttons):
+        top = 553 + 112 * i
+        d.rounded_rectangle((643, top, 1277, top + 88), radius=21,
+                            fill="#fff9fc" if i == 0 else "#ffffff",
+                            outline="#eec9e0" if i == 0 else "#dbdbdb", width=3)
+        d.text((960, top + 45), label, font=font(31, True),
+               fill="#8e2460" if i == 0 else "#262626", anchor="mm")
+
+    d.text((960, 1031), "Prévia ilustrativa · InstaProfile · Estático",
+           font=font(20), fill="#8a8a8a", anchor="mm")
+    return im
+
+
 def create(project):
     slug=project["slug"]
+    if slug=="InstaProfile":
+        return create_instaprofile()
     if project["sourceType"]=="base":
         return Image.open(root/"reference-themes"/slug/"preview.png").convert("RGB")
     colors=project["config"]["colors"]
@@ -64,7 +114,7 @@ def create(project):
 
 for p in projects:
     slug=p["slug"]
-    if slug not in ("PolySleek","galaxy","CyberHorizon","ObsidianGold","HoloPrism"):continue
+    if slug not in ("PolySleek","galaxy","CyberHorizon","ObsidianGold","HoloPrism","InstaProfile"):continue
     image=create(p)
     tmp=root/".theme-build/previews"/slug
     tmp.mkdir(parents=True,exist_ok=True)
